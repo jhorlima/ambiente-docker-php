@@ -1,0 +1,40 @@
+version: '3.2'
+services:
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 12qwaszx
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/mysqld_charset.cnf:/etc/mysql/conf.d/mysqld_charset.cnf
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin 
+    environment:     
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"
+    links:
+      - mysql
+  php:
+    build: ./conf
+    environment:
+      PHP_XDEBUG_ENABLED: 1
+      XDEBUG_CONFIG: remote_host=10.254.254.254
+    expose:
+      - "9000"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "35729:35729"
+      - "9876:9876"
+    links:
+      - mysql
+    volumes:
+      - ./www:/var/www/html
+      - ./sites-available/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ./conf/php.ini:/usr/local/etc/php/php.ini
+      - ./logs/web:/var/log/apache2
+    working_dir: /var/www

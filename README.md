@@ -5,7 +5,7 @@ Ambiente de Desenvolvimento DOCKER PHP
 
 - $: `docker-compose build`
 - $: `docker-compose up -d`
-- $: `netsh interface ipv4 add address "Ethernet do Docker" 10.254.254.254 255.255.255.0 #Windows Admin`
+- $: `netsh interface ipv4 add address "vEthernet (DockerNAT)" 10.254.254.254 255.255.255.0 #Windows Admin`
 - $: `sudo ifconfig en0 alias 10.254.254.254 255.255.255.0 #Linux e MAC`
 
 
